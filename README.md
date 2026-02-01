@@ -46,6 +46,11 @@ The **Paper App** is a cutting-edge, AI-powered educational tool designed to rev
 - Integration with Learning Management Systems (LMS).
 - Advanced analytics for student performance tracking based on generated assessments.
 - Real-time collaboration for faculty members.
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
 
 ---
-*Developed by Zahoor Ahmed*
+*Developed by Zahoor Ahmed using google gemini and antigravity*
