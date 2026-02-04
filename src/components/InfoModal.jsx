@@ -21,7 +21,7 @@ export default function InfoModal({ isOpen, onClose }) {
                         <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-purple-700">
                             Paper App
                         </h2>
-                        <p className="text-xs text-indigo-500 font-medium mt-1">Powered by Advanced AI</p>
+                        <p className="text-xs text-indigo-500 font-medium mt-1">Powered by Gemini 3</p>
                     </div>
                     <button
                         onClick={onClose}
@@ -45,39 +45,39 @@ export default function InfoModal({ isOpen, onClose }) {
                     <div className="grid md:grid-cols-2 gap-6">
 
                         <FeatureCard
-                            icon={<Globe className="text-blue-500" />}
-                            title="Dual-Language Support"
-                            desc="Seamlessly switch between English and Urdu. Native support for Nastaliq fonts and mixed-mode papers."
+                            icon={<Layout className="text-blue-600" />}
+                            title="Smart Exam Modes"
+                            desc="Specialized modes for every need: 'Quiz' (simplified, no sections), 'Assignment' (Long/Scenario based), and 'Mid/Final Term' (Full patterns)."
                         />
 
                         <FeatureCard
-                            icon={<CheckCircle className="text-green-500" />}
-                            title="Outcome-Based Education (OBE)"
-                            desc="Align questions with Course Learning Outcomes (CLOs) and Program Learning Outcomes (PLOs) with smart tagging."
+                            icon={<CheckCircle className="text-green-600" />}
+                            title="OBE & Bloom's Taxonomy"
+                            desc="Full Outcome-Based Education support. Auto-tags questions with CLOs/PLOs and maps them to Bloom's Cognitive Levels (Knowledge -> Creation)."
                         />
 
                         <FeatureCard
-                            icon={<Cpu className="text-purple-500" />}
-                            title="AI-Powered Generation"
-                            desc="Generate content from topics or upload PDFs/Notes. The AI understands context and creates cognitive-level appropriate questions."
+                            icon={<Globe className="text-indigo-600" />}
+                            title="Bilingual & Mixed Mode"
+                            desc="Native Urdu (Nastaliq) and English support. Generate fully bilingual papers where questions appear in English followed by Urdu."
                         />
 
                         <FeatureCard
-                            icon={<Layers className="text-amber-500" />}
-                            title="Advanced Bulk Mode"
-                            desc="Generate multiple distinct versions of papers at once for large classes, ensuring fairness and variety."
+                            icon={<Cpu className="text-purple-600" />}
+                            title="AI Context Engine"
+                            desc="Input topics or upload coarse notes/PDFs. The AI intelligently generates relevant questions adhering to your specified pattern."
                         />
 
                         <FeatureCard
-                            icon={<Settings className="text-pink-500" />}
-                            title="Flexible Customization"
-                            desc="Control difficulty, timings, and patterns. Supports Mid-Term, Final-Term, Quizzes, and more."
+                            icon={<Layers className="text-amber-600" />}
+                            title="Bulk Generation"
+                            desc="Create 5, 10, or 20 unique versions of a paper in one click. Perfect for preventing cheating in large classes."
                         />
 
                         <FeatureCard
-                            icon={<Layout className="text-indigo-500" />}
-                            title="Preview & Export"
-                            desc="Real-time glassmorphic preview, answer key generation, and one-click export to Microsoft Word."
+                            icon={<Edit3 className="text-pink-600" />}
+                            title="Smart Formatting"
+                            desc="Intelligent layout that adapts to content. Auto-hides section headers for simple quizzes and formats assignment covers professionally."
                         />
 
                     </div>

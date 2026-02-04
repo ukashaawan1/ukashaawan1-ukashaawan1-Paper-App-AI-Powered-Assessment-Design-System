@@ -9,7 +9,7 @@ function App() {
     const examGenerator = useExamGenerator();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 text-slate-800 font-sans selection:bg-indigo-100" dir="rtl">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 text-slate-800 font-sans selection:bg-indigo-100" dir="ltr">
 
 
 

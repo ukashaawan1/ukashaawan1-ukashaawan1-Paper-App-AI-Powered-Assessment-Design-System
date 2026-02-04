@@ -9,23 +9,26 @@ The **Paper App** is a cutting-edge, AI-powered educational tool designed to rev
 - **Seamless English & Urdu Integration:** The system natively supports both English and Urdu languages. It handles right-to-left (RTL) text alignment for Urdu automatically using `Nastaliq` fonts, ensuring professional formatting.
 - **Mixed Mode:** Generate papers that contain both English and Urdu questions, perfect for diverse educational environments.
 
-### 2. Outcome-Based Education (OBE) Integration
-- **CLO & PLO Alignment:** The system allows for the integration of Course Learning Outcomes (CLOs) and Program Learning Outcomes (PLOs).
-- **Tagging System:** Questions can be tagged with specific outcomes, ensuring that assessments validly measure student progress against defined academic goals.
+### 2. Outcome-Based Education (OBE) & Bloom's Taxonomy
+- **CLO & PLO Alignment:** Seamless integration of Course and Program Learning Outcomes.
+- **Bloom's Taxonomy:** Questions are structurally mapped to Bloom's Cognitive Levels (Reminder, Understand, Apply, Analyze, Evaluate, Create).
+- **Smart Tagging:** Every generated question includes appropriate `[CLO-X, PLO-Y]` tags automatically.
 
 ### 3. AI-Powered Generation
 - **Topic-Based Generation:** Simply enter a list of topics or an outline, and the AI generates relevant questions (MCQs, Short, and Long questions).
 - **Content-Based Generation:** Upload course notes, PDFs, or text files. The AI analyzes the content to create questions that are directly directly derived from the source material.
-- **Bloom's Taxonomy Levels:** The generator is tuned to create questions across different cognitive levels (Knowledge, Comprehension, Application, Analysis).
+- **Context Awareness:** The generator understands context and creates cognitive-level appropriate questions.
 
 ### 4. Advanced Bulk Generation Mode
 - **Mass Production:** Generate multiple distinct sets of papers (e.g., 5, 10, or more versions) at once for large classes or question banks.
 - **Variation:** Ensure fairness and reduce cheating by providing different exam versions to students, all covering the same core concepts.
 
-### 5. Flexible Paper Patterns & Customization
-- **Exam Types:** Supports various formats including Mid-Term, Final-Term, Quizzes, Class Tests, and Assignments.
-- **Customizable Layout:** Adjust the number of MCQs, Short Questions, and Long Questions.
-- **Time & Difficulty:** Set specific time durations and difficulty levels (Easy, Medium, Hard).
+### 5. Smart Exam Modes & Logic
+- **Specialized Formats:**
+    - **Assignments:** Defaults to Long/Scenario questions ("Assignments Pattern") with professional cover sheets.
+    - **Quizzes:** Defaults to MCQs/Short questions ("Quiz Pattern") with simplified headers (no "Section" breaks for single-type papers).
+    - **Mid/Final Exams:** Full standard patterns with multiple sections (A, B, C).
+- **Intelligent Defaults:** The system automatically selects appropriate time durations, marks, and question distributions based on the chosen Exam Type.
 
 ### 6. Interactive Preview & Editing
 - **Real-Time Preview:** View the generated paper exactly as it will appear when printed.
@@ -46,11 +49,6 @@ The **Paper App** is a cutting-edge, AI-powered educational tool designed to rev
 - Integration with Learning Management Systems (LMS).
 - Advanced analytics for student performance tracking based on generated assessments.
 - Real-time collaboration for faculty members.
-## Environment Variables
-
-Create a `.env` file in the project root:
-
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
 
 ---
-*Developed by Zahoor Ahmed using google gemini and antigravity*
+*Developed by Zahoor Ahmed*

@@ -13,7 +13,7 @@ export default function Header() {
                     </div>
                     <div>
                         <h1 className="text-xl font-bold tracking-wide">Paper App</h1>
-                        <p className="text-xs text-indigo-100 opacity-90 font-light">Powered by Advanced AI</p>
+                        <p className="text-xs text-indigo-100 opacity-90 font-light">Powered by Gemini 3</p>
                     </div>
                 </div>
                 <div className="flex gap-2">

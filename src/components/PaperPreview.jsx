@@ -28,8 +28,8 @@ export default function PaperPreview({ props }) {
           .header-container { text-align:center; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 3px double black; }
           .header-dept { font-size:14pt; font-weight:bold; text-transform:uppercase; margin-bottom: 5px; }
           .header-title { font-size: 18pt; font-weight: bold; text-transform: uppercase; margin: 5px 0; }
-          .info-table { width: 100%; font-weight: bold; font-size: 11pt; margin-top: 10px; border-collapse: collapse; }
-          .info-table td { padding: 4px; }
+          .info-table { width: 100%; font-weight: bold; font-size: 11pt; margin-top: 15px; border-collapse: collapse; border: 2px solid black; }
+          .info-table td { padding: 8px; border: 1px solid black; }
           .page-break { page-break-before: always; }
           .signature-section { margin-top: 60px; width: 100%; border-collapse: collapse; }
           .signature-line { border-top: 1px solid black; text-align: center; padding-top: 5px; width: 40%; font-weight: bold; }
@@ -162,33 +162,43 @@ export default function PaperPreview({ props }) {
                             </button>
                         </div>
 
+
+
                         {/* DYNAMIC HEADER SECTION */}
-                        <div className="pb-4 mb-8 text-center hidden print:block border-b-[3px] border-double border-black" dir="ltr">
-                            <h2 className="text-xl font-bold font-serif text-slate-800 uppercase tracking-widest mb-2">
-                                {activePaper.examMeta.department || 'Department Name'}
+                        <div className="mb-8 text-center" dir="ltr">
+                            <h2 className="text-xl font-bold font-serif text-slate-800 uppercase tracking-widest mb-1">
+                                {activePaper.examMeta.department ?
+                                    (activePaper.examMeta.department.toLowerCase().startsWith('department') ? activePaper.examMeta.department : `Department of ${activePaper.examMeta.department}`)
+                                    : 'DEPARTMENT OF [NAME]'}
                             </h2>
-                            <h1 className="text-4xl font-extrabold font-serif mb-5 text-black uppercase tracking-wide">
+                            <h1 className="text-3xl font-extrabold font-serif mb-6 text-black uppercase tracking-wide underline decoration-double decoration-2 underline-offset-4">
                                 {activePaper.examMeta.examType}
                             </h1>
-                            <div className="grid grid-cols-2 gap-4 text-sm font-bold font-serif px-4 pt-4 w-full">
-                                <div className="text-left space-y-2">
-                                    <div className="flex gap-2"><span className="w-24 inline-block uppercase text-slate-600">Subject:</span> <span className="text-black">{activePaper.examMeta.subjectTitle}</span></div>
-                                    <div className="flex gap-2"><span className="w-24 inline-block uppercase text-slate-600">Instructor:</span> <span className="text-black">{activePaper.examMeta.instructorName}</span></div>
-                                    <div className="flex gap-2"><span className="w-24 inline-block uppercase text-slate-600">Date:</span> <span className="text-black">{activePaper.examMeta.paperDate}</span></div>
+
+                            <div className="w-full font-serif text-sm font-bold text-black mt-4 border-b-2 border-black pb-4">
+                                <div className="grid grid-cols-2 mb-2">
+                                    <div className="flex items-center"><span className="w-28 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Subject</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.examMeta.subjectTitle}</span></div>
+                                    <div className="flex items-center justify-end"><div className="flex items-center w-full max-w-[210px]"><span className="w-24 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Code</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.examMeta.subjectCode}</span></div></div>
                                 </div>
-                                <div className="text-right space-y-2">
-                                    <div className="flex justify-end gap-2"><span className="w-24 inline-block uppercase text-slate-600 text-left">Code:</span> <span className="text-black text-right min-w-[100px]">{activePaper.examMeta.subjectCode}</span></div>
-                                    <div className="flex justify-end gap-2"><span className="w-24 inline-block uppercase text-slate-600 text-left">Semester:</span> <span className="text-black text-right min-w-[100px]">{activePaper.examMeta.semester} ({activePaper.examMeta.section})</span></div>
-                                    <div className="flex justify-end gap-2"><span className="w-24 inline-block uppercase text-slate-600 text-left">Time:</span> <span className="text-black text-right min-w-[100px]">{activePaper.examMeta.timeDuration}</span></div>
-                                    <div className="flex justify-end gap-2"><span className="w-24 inline-block uppercase text-slate-600 text-left">Marks:</span> <span className="text-black text-right min-w-[100px]">{activePaper.paperPattern.totalMarks}</span></div>
+                                <div className="grid grid-cols-2 mb-2">
+                                    <div className="flex items-center"><span className="w-28 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Instructor</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.examMeta.instructorName}</span></div>
+                                    <div className="flex items-center justify-end"><div className="flex items-center w-full max-w-[210px]"><span className="w-24 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Duration</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.examMeta.timeDuration}</span></div></div>
+                                </div>
+                                <div className="grid grid-cols-2 mb-2">
+                                    <div className="flex items-center"><span className="w-28 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Semester</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.examMeta.semester} ({activePaper.examMeta.section})</span></div>
+                                    <div className="flex items-center justify-end"><div className="flex items-center w-full max-w-[210px]"><span className="w-24 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Marks</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.paperPattern.totalMarks}</span></div></div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="flex items-center"><span className="w-28 uppercase text-slate-600 text-xs tracking-wider inline-block" style={{ textAlignLast: 'justify' }}>Date</span><span className="mr-2">:</span> <span className="text-base truncate">{activePaper.examMeta.paperDate}</span></div>
+                                    <div className="pl-4"></div>
                                 </div>
                             </div>
                         </div>
 
                         {activePaper.answerKey && (
                             <div className="mb-8 flex gap-1 p-1.5 bg-slate-100/80 backdrop-blur rounded-xl w-fit print:hidden border border-slate-200 mx-auto lg:mx-0">
-                                <button onClick={() => setShowKey(false)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${!showKey ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:bg-slate-200/50'}`}>سوالیہ پرچہ</button>
-                                <button onClick={() => setShowKey(true)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${showKey ? 'bg-white shadow-sm text-purple-600' : 'text-slate-500 hover:bg-slate-200/50'}`}>جوابی کلید</button>
+                                <button onClick={() => setShowKey(false)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${!showKey ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:bg-slate-200/50'}`}>Question Paper</button>
+                                <button onClick={() => setShowKey(true)} className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${showKey ? 'bg-white shadow-sm text-purple-600' : 'text-slate-500 hover:bg-slate-200/50'}`}>Answer Key</button>
                             </div>
                         )}
 

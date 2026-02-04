@@ -68,11 +68,29 @@ export function useExamGenerator() {
 
     const handleExamTypeChange = (type) => {
         let defaultTime = "3 Hours";
-        if (type === "Mid Term Exam") defaultTime = "90 Minutes";
-        else if (type === "Final Term Exam") defaultTime = "3 Hours";
-        else if (type === "Quiz") defaultTime = "20 Minutes";
-        else if (type === "Class Test") defaultTime = "45 Minutes";
-        else if (type === "Assignment") defaultTime = "3 Days";
+        let newPattern = { ...initialPaperConfig.paperPattern };
+        let newIsOutcomeBased = false;
+
+        if (type === "Mid Term Exam") {
+            defaultTime = "90 Minutes";
+            newPattern = { totalMarks: 50, mcqs: 10, shortQuestions: 5, longQuestions: 2, marksPerMcq: 1, marksPerShort: 4, marksPerLong: 10 };
+        } else if (type === "Final Term Exam") {
+            defaultTime = "3 Hours";
+            newPattern = { totalMarks: 100, mcqs: 20, shortQuestions: 10, longQuestions: 4, marksPerMcq: 1, marksPerShort: 4, marksPerLong: 10 };
+        } else if (type === "Quiz") {
+            defaultTime = "20 Minutes";
+            // Quiz: Max 10 Marks. Usually MCQs or Short Qs.
+            newPattern = { totalMarks: 10, mcqs: 4, shortQuestions: 2, longQuestions: 0, marksPerMcq: 1, marksPerShort: 3, marksPerLong: 0 };
+        } else if (type === "Class Test") {
+            defaultTime = "45 Minutes";
+            // Class Test: ~25-30 Marks
+            newPattern = { totalMarks: 25, mcqs: 5, shortQuestions: 5, longQuestions: 1, marksPerMcq: 1, marksPerShort: 2, marksPerLong: 10 };
+        } else if (type === "Assignment") {
+            defaultTime = "3 Days";
+            // Assignment: Max 15 Marks. Usually Long/Scenario based. Outcome based strictly? Maybe.
+            newPattern = { totalMarks: 15, mcqs: 0, shortQuestions: 0, longQuestions: 3, marksPerMcq: 0, marksPerShort: 0, marksPerLong: 5 };
+            newIsOutcomeBased = true; // Assignments often cover CLOs
+        }
 
         const newPapers = [...papers];
         newPapers[activePaperIndex] = {
@@ -81,7 +99,9 @@ export function useExamGenerator() {
                 ...newPapers[activePaperIndex].examMeta,
                 examType: type,
                 timeDuration: defaultTime
-            }
+            },
+            paperPattern: newPattern,
+            isOutcomeBased: type === "Assignment" ? true : newPapers[activePaperIndex].isOutcomeBased
         };
         setPapers(newPapers);
     };
@@ -104,7 +124,7 @@ export function useExamGenerator() {
                 };
                 reader.readAsDataURL(file);
             } else {
-                setError('فی حال صرف PDF یا Text فائل سپورٹڈ ہے۔');
+                setError('Currently only PDF or Text files are supported.');
             }
         }
     };
@@ -149,18 +169,33 @@ export function useExamGenerator() {
         let sectionsPrompt = "";
         let templatePrompt = "";
         const { mcqs, shortQuestions, longQuestions, marksPerShort, marksPerLong } = paperConfig.paperPattern;
+        const activeSections = (mcqs > 0 ? 1 : 0) + (shortQuestions > 0 ? 1 : 0) + (longQuestions > 0 ? 1 : 0);
+        const showHeaders = activeSections > 1;
 
         if (mcqs > 0) {
-            sectionsPrompt += `- Section A: ${mcqs} MCQs.\n`;
-            templatePrompt += `SECTION A: Multiple Choice Questions\n1. [Question Text] ${paperConfig.isOutcomeBased ? '[CLO-X, PLO-Y]' : ''}\n(A) Option 1 (B) Option 2 (C) Option 3 (D) Option 4\n${paperConfig.languageMode === 'Bilingual' ? 'سوال 1: [اردو ترجمہ]\n(الف) ... (ب) ... (ج) ... (د) ...' : ''}\n\n`;
+            const header = showHeaders ? "SECTION A: Multiple Choice Questions\n" : "";
+            sectionsPrompt += showHeaders ? `- Section A: ${mcqs} MCQs.\n` : `- ${mcqs} MCQs.\n`;
+            templatePrompt += `${header}1. [Question Text] ${paperConfig.isOutcomeBased ? '[CLO-X, PLO-Y]' : ''}\n(A) Option 1 (B) Option 2 (C) Option 3 (D) Option 4\n${paperConfig.languageMode === 'Bilingual' ? 'سوال 1: [اردو ترجمہ]\n(الف) ... (ب) ... (ج) ... (د) ...' : ''}\n\n`;
         }
         if (shortQuestions > 0) {
-            sectionsPrompt += `- Section B: ${shortQuestions} Short Questions.\n`;
-            templatePrompt += `SECTION B: Short Questions\nQuestion No. 1: [Question Text] (${marksPerShort} Marks) ${paperConfig.isOutcomeBased ? '[CLO-X, PLO-Y]' : ''}\n${paperConfig.languageMode === 'Bilingual' ? 'سوال 1: [اردو ترجمہ]' : ''}\n\n`;
+            let sectionTitle = "SECTION B: Short Questions";
+            if (activeSections === 1 && paperConfig.examMeta.examType === 'Assignment') sectionTitle = "ASSIGNMENT";
+
+            const header = showHeaders ? `${sectionTitle}\n` : "";
+            // Note: For Assignment single section, user might want NO header if it matches title.
+            // If showHeaders is false, we print nothing.
+
+            sectionsPrompt += showHeaders ? `- ${sectionTitle}: ${shortQuestions} Questions.\n` : `- ${shortQuestions} Short Questions.\n`;
+            templatePrompt += `${header}Question No. 1: [Question Text] (${marksPerShort} Marks) ${paperConfig.isOutcomeBased ? '[CLO-X, PLO-Y]' : ''}\n${paperConfig.languageMode === 'Bilingual' ? 'سوال 1: [اردو ترجمہ]' : ''}\n\n`;
         }
         if (longQuestions > 0) {
-            sectionsPrompt += `- Section C: ${longQuestions} Long Questions.\n`;
-            templatePrompt += `SECTION C: Long Questions\nQuestion No. 1: [Question Text] (${marksPerLong} Marks) ${paperConfig.isOutcomeBased ? '[CLO-X, PLO-Y]' : ''}\n${paperConfig.languageMode === 'Bilingual' ? 'سوال 1: [اردو ترجمہ]' : ''}\n\n`;
+            let sectionTitle = "SECTION C: Long Questions";
+            if (activeSections === 1 && paperConfig.examMeta.examType === 'Assignment') sectionTitle = "ASSIGNMENT";
+
+            const header = showHeaders ? `${sectionTitle}\n` : "";
+
+            sectionsPrompt += showHeaders ? `- ${sectionTitle}: ${longQuestions} Questions.\n` : `- ${longQuestions} Long Questions.\n`;
+            templatePrompt += `${header}Question No. 1: [Question Text] (${marksPerLong} Marks) ${paperConfig.isOutcomeBased ? '[CLO-X, PLO-Y]' : ''}\n${paperConfig.languageMode === 'Bilingual' ? 'سوال 1: [اردو ترجمہ]' : ''}\n\n`;
         }
 
         return `
@@ -191,6 +226,11 @@ export function useExamGenerator() {
       6. If a section has 0 questions, DO NOT generate that section header.
       7. ${outcomeInstruction}
       
+      STANDARD INSTRUCTIONS:
+      1. DO NOT include any introductory or concluding remarks (e.g., "Here is the exam", "I hope this helps").
+      2. Start DIRECTLY with the exam content (e.g., Header or Section A).
+      3. Return ONLY the raw exam content.
+      
       Template:
       ${templatePrompt}
     `;
@@ -207,10 +247,10 @@ export function useExamGenerator() {
             try {
                 const paperConfig = updatedPapers[i];
                 if (paperConfig.inputMode === 'Content' && !paperConfig.sourceText.trim() && !paperConfig.fileData) {
-                    throw new Error("مواد (Content) غائب ہے");
+                    throw new Error("Content is missing");
                 }
                 if (paperConfig.inputMode === 'Topic' && !paperConfig.topic.trim()) {
-                    throw new Error("ٹاپک غائب ہے");
+                    throw new Error("Topic is missing");
                 }
 
                 const promptText = constructPrompt(paperConfig);
