@@ -51,4 +51,4 @@ The **Paper App** is a cutting-edge, AI-powered educational tool designed to rev
 - Real-time collaboration for faculty members.
 
 ---
-*Developed by Zahoor Ahmed*
+*Developed by Zahoor Ahmed using gemeni 3*
